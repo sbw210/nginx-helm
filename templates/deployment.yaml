@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Chart.Name }}                # Chart.Name은 서비스 용도 구분용/ Deployment 파드 간 구분 (서비스-nginx용 디플로이먼트오브젝트다)
+    app: {{ .Values.label }}              ## Deployment 파드 간 구분 (서비스-nginx용 디플로이먼트오브젝트다)
   name: {{ .Values.name }}                # 고객명 기입 (결과물은 Name : deployment.app/{Values.Name} 으로 확인가능)
 spec:
   replicas: {{ .Values.replicaCount }}    # 복제본 개수 (default는 1로 설정)
@@ -31,9 +31,13 @@ spec:
           - containerPort: 22
             name: ssh
         volumeMounts:
-          - name: {{ .Values.volume.name }}         # spec.template.volumes에서 선언한 볼륨 name을 컨테이너에 가져와서 사용
-            mountPath: {{ .Values.volume.path }}    # 실제 생성하는 컨테이너안에서 확인 할 수 있는 Mount 경로    
+          - name: {{ .Values.volume.name }}         ## spec.template.volumes에서 선언한 볼륨 name을 컨테이너에 가져와서 사용
+            mountPath: {{ .Values.volume.path | default "/data" | quote }}    ## 실제 생성하는 컨테이너안에서 확인 할 수 있는 Mount 경로    
       volumes:
-      - name: {{ .Values.volume.name }}             # 사용할 volume을 정의. 이름 생성 >> volumeMounts아래 필드에서 사용할 수 있도록 선언해줌
+      - name: {{ .Values.volume.name }}             ## 사용할 volume을 정의. 이름 생성 >> volumeMounts아래 필드에서 사용할 수 있도록 선언해줌
+      {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.volume.claim }}     # 생성되어있는 PVC 중 원하는 것을 가져옴.
+          claimName: {{ .Values.persistence.existingClaim | default .Values.volume.claim }}
+      {{- else }}
+        emptyDir: {}
+      {{- end -}}
