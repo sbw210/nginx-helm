@@ -29,4 +29,17 @@ service:
   
 annotations:
   group: web                 # 디폴트 Metal-lb  IP-pool은 default이며, --set옵션으로 변경가능
+  
+## Persistent Volume Part ##
+
+persistence:
+  enabled: true
+    ## StorageClass를 사용하고싶으면 주석해제 필요 
+    ## StorageClass값이 "-"이면 ""을 반환하고 동적프로비저닝을 금지시킴(disable)
+    ## StorageClass값을 입력해주면 해당 stc로 Bound될 것
+  # storageClass: "-"
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  
+
    
