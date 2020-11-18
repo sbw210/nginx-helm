@@ -2,9 +2,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.label }}
+  name: {{ .Values.volume.claim }}
   labels:
-    app: {{ .Valuese.name }}
+    app: {{ .Valuese.label }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"   
 spec:
   accessModes:
