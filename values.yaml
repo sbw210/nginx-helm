@@ -1,6 +1,6 @@
 ## Deployment Part ##
-name: test                    ## 고객구분을 위한 고객명으로 입력할것 (--set옵션으로 수정배포 가능)// 향후 네임스페이스명과 동일하게 갈것
-label: test-nginx             ## HPE고객에서 사용하는 Nginx 서비스라는것을 알수있게 [고객명(name)-서비스명으로 생성] 
+name: ehost                    ## 고객구분을 위한 고객명으로 입력할것 (--set옵션으로 수정배포 가능)// 향후 네임스페이스명과 동일하게 갈것
+label: ehost-web             ## HPE고객에서 사용하는 Nginx 서비스라는것을 알수있게 [고객명(name)-서비스명으로 생성] 
 replicaCount: 1                 
 
 image:
@@ -13,13 +13,13 @@ cpu:
   requests: 1
 
 memory: 
-  limits: 2000Mi             ## Mi, Gi 등 단위 설정해서 기입
-  requests: 1000Mi
+  limits: 20480Mi             ## Mi, Gi 등 단위 설정해서 기입
+  requests: 1024Mi
  
 volume:
-  name: hpe-nginx           ## 생성할 볼륨 이름
+  name: ehost-web           ## 생성할 볼륨 이름
   path: ""                  ## 마운트 경로 (default는 /data)
-  claim: test-volume     ## pvc.yaml에서 생성할 PVC 이름
+  claim: ehostweb-volume     ## pvc.yaml에서 생성할 PVC 이름
 
 ## Service Part ##  
 service:
