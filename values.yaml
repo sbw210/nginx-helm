@@ -28,7 +28,7 @@ service:
   sshport: 22               ## 외부노출 ssh 포트 (포트포워딩용)
   
 annotations:
-  group: web                ## 디폴트 Metal-lb  IP-pool은 default이며, --set옵션으로 변경가능
+  group: default                ## 디폴트 Metal-lb  IP-pool은 default이며, --set옵션으로 변경가능
   
 ## Persistent Volume Part ##
 
